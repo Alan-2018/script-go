@@ -1,12 +1,8 @@
 package main
 
-import (
-	"log"
+import "github.com/flower/script-go/isyntax"
 
-	"github.com/flower/script-go/isyntax"
-)
-
-var v struct{} = isyntax.TestISyntaxFuncsInit2()
+// var v struct{} = isyntax.TestISyntaxFuncsInit2()
 
 func main() {
 
@@ -19,6 +15,8 @@ func main() {
 	// isyntax.TestISyntaxConditionalStatements()
 
 	// isyntax.TestISyntaxTypesAndDefaults()
+
+	isyntax.TestISyntaxInitializationsFuncs()
 
 	// isyntax.TestISyntaxStringsFuncs()
 
@@ -96,5 +94,5 @@ func main() {
 	/*
 		?
 	*/
-	log.Printf("%T", "")
+
 }

@@ -151,6 +151,7 @@ func TestISyntaxConditionalStatements() {
 	// type <nil>, value <nil>
 	// 空指针
 	// 野指针
+	// 迷途指针
 	// 未初始化
 	var i interface{}
 	lambda(i)
@@ -197,6 +198,9 @@ interface{}
 	? 但是 不包括 type <nil>
 	但是 值 可以等于 value <nil>
 
+	与 nil 比较
+	既要比较 类型 也要比较 值
+
 	// jbody := make(jmap)
 	// var inp interface{} = jbody
 	// var oup interface{}
@@ -225,7 +229,7 @@ func TestISyntaxTypesAndDefaults() {
 	var lambda func(inp interface{})
 
 	lambda = func(inp interface{}) {
-		log.Printf("%T, %v, %v\n", inp, inp, nil == inp)
+		log.Printf("%T, %v, %v, %v\n", inp, inp, nil == inp, reflect.ValueOf(inp).IsNil())
 
 		if i, ok := inp.([]byte); ok {
 			log.Printf("%T, %v, %v\n", i, i, nil == i)
@@ -364,7 +368,7 @@ func TestISyntaxTypesAndDefaults() {
 	lambda(j["default"])
 	// nil (untyped nil value) is not a type
 	// lambda(j["default"].(nil))
-	// panic: interface conversion: interface {} is nil, not ...
+	// panic: interface conversion: interface is nil, not interface {}
 	// lambda(j["default"].(interface{}))
 
 	j["default"] = false
@@ -393,6 +397,11 @@ func TestISyntaxTypesAndDefaults() {
 	var s string
 	lambda(s)
 
+	/*
+		不建议 interface{} == nil
+		https://www.jianshu.com/p/792ccef9c8d5
+	*/
+
 	var bs []byte
 	lambda(bs)
 	log.Println(nil == bs)
@@ -401,6 +410,7 @@ func TestISyntaxTypesAndDefaults() {
 	lambda(ptStr)
 	log.Println(nil == ptStr)
 
+	// 本就是 nil
 	var i2 interface{}
 	lambda(i2)
 	log.Println(nil == i2)
@@ -430,6 +440,134 @@ func TestISyntaxTypesAndDefaults() {
 	var ptBuf2 *bytes.Buffer = bytes.NewBuffer(nil)
 	lambda(ptBuf2)
 	log.Println(nil == ptBuf2)
+
+}
+
+func TestISyntaxInitializationsFuncs() {
+	/*
+		变量 声明 && 初始化
+		基本类型 -> 零值
+
+		初始化
+			指针类型 指针变量
+			引用类型
+			复合类型
+
+		new & make
+			new  -> 分配内存 & 返回 指向零值 指针
+			make -> slice, map, or chan (only) & 返回引用
+
+		struct{...}
+		interface{...}
+		slice{...}
+
+		make
+			The make built-in function allocates and initializes an object of type slice, map, or chan (only).
+			Like new, the first argument is a type, not a value.
+			Unlike new, make's return type is the same as the type of its argument, not a pointer to it.
+			The specification of the result depends on the type:
+
+				Slice: The size specifies the length. The capacity of the slice is
+				equal to its length. A second integer argument may be provided to
+				specify a different capacity; it must be no smaller than the
+				length. For example, make([]int, 0, 10) allocates an underlying array
+				of size 10 and returns a slice of length 0 and capacity 10 that is
+				backed by this underlying array.
+
+				Map: An empty map is allocated with enough space to hold the
+				specified number of elements. The size may be omitted, in which case
+				a small starting size is allocated.
+
+				Channel: The channel's buffer is initialized with the specified
+				buffer capacity. If zero, or the size is omitted, the channel is
+				unbuffered.
+	*/
+
+	/*
+		slice & array
+			slice
+				动态扩容
+
+				unhashable 可变
+
+				Data uintptr
+				Len  int
+				Cap  int
+
+			array
+				类型 -> 元素类型 & 元素个数
+				无法扩容
+
+				hashable
+	*/
+
+	arr := [...]int{0, 1, 2, 3, 4, 5}
+	slc := arr[3:5]
+	// fmt.Println(slc[:7]) // panic: runtime error: slice bounds out of range [:7] with capacity 3
+	// 深拷贝
+	// "+" 不支持
+	slc2 := slc[:]
+	fmt.Println(slc2)
+
+	// ? idx 比 append 更快
+	// slc[len(slc)] = 1
+	// for idx, _ := range slc {
+	// 	fmt.Println(slc[idx])
+	// }
+	slc2 = append(slc2, 1)
+	fmt.Println(slc2)
+
+	var slc3 []int // len(s) == 0, s == nil
+	b, _ := json.Marshal(slc3)
+	fmt.Println(string(b))
+
+	slc3 = []int(nil) // len(s) == 0, s == nil
+
+	slc3 = []int{} // len(s) == 0, s != nil
+
+	slc3 = make([]int, 0) // len(s) == 0, s != nil
+	b, _ = json.Marshal(slc3)
+	fmt.Println(string(b))
+
+	/*
+		type
+	*/
+
+	var typeof func(v interface{}) string = func(v interface{}) string {
+		return fmt.Sprintf("%T", v)
+	}
+
+	fmt.Println("bool" == typeof(true))
+
+	fmt.Println(reflect.Bool.String() == reflect.TypeOf(true).String())
+
+	fmt.Println(reflect.Bool.String() == reflect.ValueOf(true).Kind().String())
+
+	// type-switch
+
+	/*
+		Golang关键字--type 类型定义
+		https://blog.csdn.net/SHELLCODE_8BIT/article/details/122837699
+	*/
+
+	/*
+		浮点数 舍入 & 精度
+
+		Golang将float64转换为int错误
+		https://qa.1r1g.com/sf/ask/2523704571/
+
+		可以避免使用浮点数
+		元 -> 分
+		乘以 100
+	*/
+
+	x := 100.55
+	fmt.Printf("%.50f\n", x) // 100.54999999999999715782905695959925651550292968750000
+
+	fmt.Printf("%.2f\n", x)
+
+	x2 := 10055
+	fmt.Printf("%d.%d $\n", x2/100, x2%100)
 
 }
 
@@ -699,7 +837,7 @@ func TestISyntaxJsons() {
 		j  = make(jmap)
 		j2 = make(jmap)
 
-		ptJmap = new(ptjmap)
+		ptj = new(ptjmap)
 	)
 
 	// json str <-> map
@@ -726,12 +864,13 @@ func TestISyntaxJsons() {
 		Go中为什么json.Unmarshal为什么需要指向map的指针？
 		https://blog.csdn.net/ZN175623/article/details/127709472
 	*/
-	err = json.Unmarshal([]byte(`null`), &ptJmap)
+	err = json.Unmarshal([]byte(`null`), &ptj)
 	if err != nil {
+		// C-TODO wrap
 		log.Printf("%w", err)
 	}
-	log.Printf("%+v", ptJmap)
-	log.Printf("%+v", nil == ptJmap)
+	log.Printf("%+v", ptj)
+	log.Printf("%+v", nil == ptj)
 
 }
 
