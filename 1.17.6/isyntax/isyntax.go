@@ -698,6 +698,8 @@ func TestISyntaxJsons() {
 	var (
 		j  = make(jmap)
 		j2 = make(jmap)
+
+		ptJmap = new(ptjmap)
 	)
 
 	// json str <-> map
@@ -711,8 +713,25 @@ func TestISyntaxJsons() {
 	if err != nil {
 		log.Printf("%w", err)
 	}
-
 	log.Printf("%+v", j2)
+
+	err = json.Unmarshal([]byte(`null`), &j2)
+	if err != nil {
+		log.Printf("%w", err)
+	}
+	log.Printf("%+v", j2)
+	log.Printf("%+v", nil == j2)
+
+	/*
+		Go中为什么json.Unmarshal为什么需要指向map的指针？
+		https://blog.csdn.net/ZN175623/article/details/127709472
+	*/
+	err = json.Unmarshal([]byte(`null`), &ptJmap)
+	if err != nil {
+		log.Printf("%w", err)
+	}
+	log.Printf("%+v", ptJmap)
+	log.Printf("%+v", nil == ptJmap)
 
 }
 

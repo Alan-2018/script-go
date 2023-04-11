@@ -6,6 +6,8 @@ import (
 	"github.com/flower/script-go/isyntax"
 )
 
+var v struct{} = isyntax.TestISyntaxFuncsInit2()
+
 func main() {
 
 	/*
@@ -22,7 +24,7 @@ func main() {
 
 	// isyntax.TestISyntaxIOFuncs()
 
-	isyntax.TestISyntaxTimesFuncs()
+	// isyntax.TestISyntaxTimesFuncs()
 
 	// isyntax.TestISyntaxErrors()
 
@@ -94,8 +96,5 @@ func main() {
 	/*
 		?
 	*/
-
-	var x struct{}
-	log.Println(x)
-
+	log.Printf("%T", "")
 }

@@ -24,6 +24,12 @@ var LogError func(err error) error = func(err error) error {
 }
 
 /*
+	C-TODO
+	4. PKI - 数字签名、CA、数字证书
+	https://blog.csdn.net/ttyy1112/article/details/107083345
+*/
+
+/*
 	ed25519
 */
 func GenerateKeysByEd25519() (sshPublicKeyStr, privateKeyStr string, err error) {

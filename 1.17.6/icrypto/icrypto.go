@@ -88,6 +88,8 @@ func TestICryptoUuid() {
 	uuidStr := uuidBs.String()
 
 	/*
+		https://qa.1r1g.com/sf/ask/1753617281/
+
 		uuidBs  len 16
 		uuidStr len 36 (32 + 4) (8-4-4-4-12)
 
