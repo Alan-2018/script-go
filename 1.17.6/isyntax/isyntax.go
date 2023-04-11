@@ -28,6 +28,7 @@ var (
 	// 换行符
 	nlStr = "\n"
 
+	// go test -v commontest -run ^TestStruct2Json$
 	// https://www.cnblogs.com/liang1101/p/6741262.html
 	t *testing.T = new(testing.T)
 )
@@ -568,6 +569,14 @@ func TestISyntaxInitializationsFuncs() {
 
 	x2 := 10055
 	fmt.Printf("%d.%d $\n", x2/100, x2%100)
+
+	/*
+		golang类型间强制转换
+		https://www.jianshu.com/p/b3c7cc5b26d7/
+
+		golang类型强转
+		https://www.cnblogs.com/xuweiqiang/p/16892809.html
+	*/
 
 }
 
