@@ -16,7 +16,9 @@ func main() {
 
 	// isyntax.TestISyntaxTypesAndDefaults()
 
-	isyntax.TestISyntaxInitializationsFuncs()
+	// isyntax.TestISyntaxInitializationsFuncs()
+
+	isyntax.TestISyntaxTypesInterface()
 
 	// isyntax.TestISyntaxStringsFuncs()
 

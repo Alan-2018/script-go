@@ -193,6 +193,9 @@ func TestISyntaxLoopStatements() {
 /*
 interface{}
 	空接口
+	! 类型
+	! 匿名类型
+	! 类似 struct{}
 
 	类型
 	表示 任意类型
@@ -576,6 +579,40 @@ func TestISyntaxInitializationsFuncs() {
 
 		golang类型强转
 		https://www.cnblogs.com/xuweiqiang/p/16892809.html
+	*/
+
+}
+
+func TestISyntaxTypesInterface() {
+	/*
+		GO语言interface篇
+		https://blog.csdn.net/weixin_42629418/article/details/117574481
+
+		Golang interface 接口详细原理和使用技巧
+		https://blog.csdn.net/wudebao5220150/article/details/128095696
+
+		Golang-接口(interface)
+		https://www.cnblogs.com/Essaycode/p/12677654.html
+	*/
+
+	/*
+		嵌套 -> 鸭子类型
+
+		接口比继承更灵活
+			继承 is   - a 关系
+			接口 like - a 关系
+	*/
+
+	/*
+		接口嵌套 -> 继承
+
+		组合 & 转发
+			组合 -> 多继承
+			转发 -> 子类实例 调用 父类方法
+	*/
+
+	/*
+		结构体嵌套 -> 继承
 	*/
 
 }
