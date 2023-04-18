@@ -1,6 +1,12 @@
 package main
 
-import "github.com/flower/script-go/isyntax"
+import (
+	"log"
+	"math/big"
+
+	"github.com/flower/script-go/iextensions/baidubce"
+	"github.com/google/uuid"
+)
 
 // var v struct{} = isyntax.TestISyntaxFuncsInit2()
 
@@ -18,7 +24,7 @@ func main() {
 
 	// isyntax.TestISyntaxInitializationsFuncs()
 
-	isyntax.TestISyntaxTypesInterface()
+	// isyntax.TestISyntaxTypesInterface()
 
 	// isyntax.TestISyntaxStringsFuncs()
 
@@ -85,6 +91,11 @@ func main() {
 	// )
 
 	/*
+		bce sms
+	*/
+	baidubce.TestBaiduBceSms()
+
+	/*
 		mysql
 	*/
 	// mysql.TestISqlsMysqls()
@@ -97,4 +108,22 @@ func main() {
 		?
 	*/
 
+	/*
+		temp
+	*/
+	Temp()
+
+}
+
+func Temp() {
+	s := uuid.NewString()[:8]
+	n, flag := new(big.Int).SetString(s, 16)
+	log.Println(s, n, n.String(), len(n.String()), flag)
+
+	code := "86758181"
+	for len(code) < 10 {
+		code = "0" + code
+	}
+
+	log.Println(code)
 }

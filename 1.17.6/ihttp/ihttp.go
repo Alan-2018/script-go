@@ -38,7 +38,7 @@ func TestIHttpStatusCode() {
 
 func TestIHttpFuncs() {
 	var (
-		urlStr string = "https://www.baidu.com/s?wd=flower.cong@basebit.ai"
+		urlStr string = "https://www.baidu.com/s?wd=fake@fake.com"
 
 		err error
 	)
