@@ -72,6 +72,79 @@ func TestISyntaxFuncsPrints() {
 
 	log.Printf("x: %v\n", nil)
 
+	// 格式化动词
+	// 对齐文本
+	fmt.Printf("%-15v $%4v\n", "apple", "1")
+	fmt.Printf("%-15v $%4v\n", "banana", "0.5")
+
+	// 浮点数
+	third := 1.0 / 3.0
+	fmt.Println(third)
+	fmt.Printf("%v\n", third)
+	fmt.Printf("%f\n", third)
+	fmt.Printf("%.3f\n", third)
+	fmt.Printf("%4.2f\n", third) // %{}.{}f ? 全部长度小于4 包括小数点 向左补空格
+	fmt.Printf("%5.2f\n", third)
+	fmt.Printf("%05.2f\n", third)
+
+	f := 0.1
+	third2 := f + f + f
+	fmt.Println(third2)
+	fmt.Println(third2 == 0.3)
+	fmt.Println(math.Abs(third2-0.3) < 1e-2)
+
+	// 大数
+	// cannot use 24e18 (untyped float constant 2.4e+19) as uint64 value in variable declaration (truncated)
+	// var x uint64 = 24e18
+	var m, n = 24e18, 24e1
+	fmt.Printf("%T: %v\n", m, m)
+	fmt.Printf("%T: %v\n", n, n)
+
+	// 凯撒加密法
+	c := 'a'
+	c = c + 3
+
+	if c > 'z' {
+		c = c - 26
+	}
+
+	// ROT13
+	// 1-13  -> 14-26
+	// 14-26 -> 1-13
+	// 加密即解密
+	str := "uryyb jbeyq"
+
+	for i := 0; i < len(str); i++ {
+		c := str[i]
+		if c >= 'a' && c <= 'z' {
+			c += 13
+			if c > 'z' {
+				c = c - 26
+			}
+		}
+
+		fmt.Printf("%c", c)
+	}
+
+	fmt.Println()
+
+	// 类型转换
+	//
+	f = 32768
+	i := int16(f)
+	fmt.Println(i)
+
+	fmt.Println(c, string(c))
+
+	// 锟斤拷
+	fmt.Println(string(24000000000000000000))
+	fmt.Println(string(24000000000000000000000000))
+
+	// 切分字符串
+	// 字符串切片
+	strArr := "你好世界"
+	fmt.Println(strArr[:2])
+
 	var (
 		s string
 		b []byte
@@ -621,6 +694,12 @@ func TestISyntaxStringsFuncs() {
 
 	var s string = "\n---- body ----\n"
 
+	fmt.Println(strings.ToUpper(s))
+	fmt.Println()
+
+	fmt.Println(strings.ToLower(s))
+	fmt.Println()
+
 	fmt.Println(strings.Replace(s, "\n", "", -1))
 	fmt.Println()
 
@@ -632,6 +711,20 @@ func TestISyntaxStringsFuncs() {
 
 	fmt.Println(strings.Trim(s, "-\n"))
 	fmt.Println()
+
+	fmt.Println(strings.TrimSpace(""))
+	fmt.Println()
+
+	fmt.Println(strings.Fields(s))
+	fmt.Println()
+
+	// strings.Split()
+
+	// strings.Contains()
+
+	// strings.Join()
+
+	// ...
 
 }
 
@@ -917,6 +1010,47 @@ func TestISyntaxJsons() {
 	}
 	log.Printf("%+v", ptj)
 	log.Printf("%+v", nil == ptj)
+
+	/**/
+	if v, err := json.Marshal(make([]interface{}, 0)); err != nil {
+		//
+	} else {
+		log.Printf("%+T", make([]interface{}, 0))
+		iutils.Log(make([]interface{}, 0))
+		log.Printf("%+T", v)
+		log.Printf("%+v", string(v) == "[]")
+	}
+
+	if v, err := json.Marshal(new([]interface{})); err != nil {
+		//
+	} else {
+		log.Printf("%+T", new([]interface{}))
+		iutils.Log(new([]interface{}))
+		log.Printf("%+T", v)
+		log.Printf("%+v", string(v))
+	}
+
+	/**/
+
+	type Person struct {
+		Name string
+		Age  int
+	}
+
+	p := &Person{
+		Name: "text",
+		Age:  0,
+	}
+
+	bytes, err := json.Marshal(p)
+	log.Println(string(bytes))
+
+	pMap := make(map[string]interface{})
+	err = json.Unmarshal(bytes, &pMap)
+
+	for k, v := range pMap {
+		fmt.Printf("k:%s,v:%+v, vtype:%v\n", k, v, reflect.TypeOf(v))
+	}
 
 }
 

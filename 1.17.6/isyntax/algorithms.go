@@ -1,6 +1,7 @@
 package isyntax
 
 import (
+	"fmt"
 	"log"
 	"sort"
 	"time"
@@ -72,4 +73,19 @@ func TestMapsSort() {
 
 	// how to sort string value of map
 
+}
+
+func TestStringSliceSort() {
+	slc := []string{
+		"apple",
+		"tomato",
+		"banana",
+		"potato",
+	}
+
+	sort.StringSlice(slc).Sort()
+
+	fmt.Println(
+		slc,
+	)
 }

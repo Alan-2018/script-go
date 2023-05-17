@@ -1,0 +1,5 @@
+package isyntax
+
+/*
+	io stream
+*/
