@@ -1060,8 +1060,9 @@ func TestISyntaxStructs() {
 
 	// import field: 导出项
 	type Structs struct {
-		Str string `db:"str" json:"str,omitempty"`
-		Bl  bool   `db:"bl" json:"bl,omitempty"`
+		Str       string `db:"str" json:"str,omitempty"`
+		Bl        bool   `db:"bl" json:"bl,omitempty"`
+		StartTime int64  `json:"start_time"`
 	}
 
 	var structs Structs
@@ -1089,10 +1090,13 @@ func TestISyntaxStructs() {
 	// struct <-> map
 	var j jmap = make(jmap)
 	j["str"] = "jmap"
+	j["start_time"] = 999
 
 	if err := mapstructure.Decode(j, &structs); err != nil {
 		log.Println(err)
 	}
+
+	log.Printf("mapstructure %+v", structs)
 
 	// 结构体 属性 大写
 	// panic: reflect.Value.Interface: cannot return value obtained from unexported field or method
