@@ -1,12 +1,6 @@
 package main
 
-import (
-	"log"
-	"math/big"
-
-	"github.com/flower/script-go/isyntax"
-	"github.com/google/uuid"
-)
+import "log"
 
 // var v struct{} = isyntax.TestISyntaxFuncsInit2()
 
@@ -34,7 +28,7 @@ func main() {
 
 	// isyntax.TestISyntaxErrors()
 
-	isyntax.TestISyntaxJsons()
+	// isyntax.TestISyntaxJsons()
 
 	// isyntax.TestISyntaxStructs()
 
@@ -126,7 +120,7 @@ func main() {
 	/*
 		temp
 	*/
-	// Temp()
+	Temp()
 
 	// s := strings.HasPrefix("", "Bearer ")
 	// log.Println(s)
@@ -149,15 +143,37 @@ func main() {
 
 }
 
+type jarray = []interface{}
+
 func Temp() {
-	s := uuid.NewString()[:8]
-	n, flag := new(big.Int).SetString(s, 16)
-	log.Println(s, n, n.String(), len(n.String()), flag)
 
-	code := "86758181"
-	for len(code) < 10 {
-		code = "0" + code
-	}
+	jarr := make(jarray, 1)
+	jarr = append(jarr, "id1")
 
-	log.Println(code)
+	log.Println(jarr)
+
+	// s := uuid.NewString()[:8]
+	// n, flag := new(big.Int).SetString(s, 16)
+	// log.Println(s, n, n.String(), len(n.String()), flag)
+
+	// code := "86758181"
+	// for len(code) < 10 {
+	// 	code = "0" + code
+	// }
+
+	// log.Println(code)
+
+	// var phones []string
+	// var phonesExt []string
+
+	// i := "+85251049640"
+
+	// if strings.HasPrefix(i, "+") && !strings.HasPrefix(i, "+86") {
+	// 	phonesExt = append(phonesExt, i)
+	// } else {
+	// 	phones = append(phones, i)
+	// }
+
+	// log.Println(phonesExt)
+
 }
