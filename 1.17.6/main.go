@@ -144,13 +144,16 @@ func main() {
 }
 
 type jarray = []interface{}
+type jmap = map[string]interface{}
 
 func Temp() {
+	j := make(jmap)
+	j["x"] = int(9)
+	log.Println(j["x"].(int))
 
-	jarr := make(jarray, 1)
-	jarr = append(jarr, "id1")
-
-	log.Println(jarr)
+	// jarr := make(jarray, 1)
+	// jarr = append(jarr, "id1")
+	// log.Println(jarr)
 
 	// s := uuid.NewString()[:8]
 	// n, flag := new(big.Int).SetString(s, 16)
@@ -160,7 +163,6 @@ func Temp() {
 	// for len(code) < 10 {
 	// 	code = "0" + code
 	// }
-
 	// log.Println(code)
 
 	// var phones []string
